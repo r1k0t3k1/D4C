@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      network: host
+
+  postgres:
+    image: postgres:17
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgres/data
+    environment:
+      POSTGRES_USER: api
+      POSTGRES_PASSWORD: api
+      POSTGRES_DB: api
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
+volumes:
+  db:
+    driver: local

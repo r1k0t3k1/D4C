@@ -1,0 +1,28 @@
+name: CI for D4C
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    paths-ignore:
+      - "README.md"
+      - "frontend/**"
+
+defaults:
+  run:
+    working-directory: api
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust toolchains
+        run: rustup toolchain install stable
+
+      - name: run Clippy
+        run: cargo clippy --all --all-targets
+      
+      - name: run Rustfmt
+        run: cargo fmt --all --check
